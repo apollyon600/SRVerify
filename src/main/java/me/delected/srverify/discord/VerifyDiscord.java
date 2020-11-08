@@ -42,6 +42,7 @@ public class VerifyDiscord extends ListenerAdapter {
                     VerifyConfig.save();
                     Bukkit.broadcastMessage(ChatColor.BLUE + Bukkit.getPlayer(match).getName() + " just verified!");
                     Bukkit.getPlayer(match).removePotionEffect(PotionEffectType.BLINDNESS);
+                    // no need for flyspeed I think
                     Bukkit.getPlayer(match).setWalkSpeed(0.2f);
                     break;
                 }
