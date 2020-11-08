@@ -43,7 +43,6 @@ public class VerifyDiscord extends ListenerAdapter {
                     Bukkit.broadcastMessage(ChatColor.BLUE + Bukkit.getPlayer(match).getName() + " just verified!");
                     Bukkit.getPlayer(match).removePotionEffect(PotionEffectType.BLINDNESS);
                     Bukkit.getPlayer(match).setWalkSpeed(0.2f);
-                    Bukkit.getPlayer(match).setFlySpeed(0.1f);
                     break;
                 }
             }
