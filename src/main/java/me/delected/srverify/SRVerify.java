@@ -1,6 +1,8 @@
 package me.delected.srverify;
 
+import me.delected.srverify.discord.Ban;
 import me.delected.srverify.discord.HelpCommand;
+import me.delected.srverify.discord.Kick;
 import me.delected.srverify.discord.VerifyDiscord;
 import me.delected.srverify.spigotstuff.PlayerJoin;
 import me.delected.srverify.spigotstuff.VerifySpigot;
@@ -42,6 +44,8 @@ public class SRVerify extends JavaPlugin {
             builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
             builder.addEventListeners(new VerifyDiscord());
             builder.addEventListeners(new HelpCommand());
+            builder.addEventListeners(new Ban());
+            builder.addEventListeners(new Kick());
             builder.build();
             jda = (JDA) builder;
         } catch (LoginException e) {
