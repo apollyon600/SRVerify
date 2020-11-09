@@ -1,5 +1,6 @@
 package me.delected.srverify;
 
+import me.delected.srverify.discord.HelpCommand;
 import me.delected.srverify.discord.VerifyDiscord;
 import me.delected.srverify.spigotstuff.PlayerJoin;
 import me.delected.srverify.spigotstuff.VerifySpigot;
@@ -27,7 +28,7 @@ public class SRVerify extends JavaPlugin {
     public JavaPlugin plugin() {
         return plugin;
     }
-
+    JDA jda;
     @Override
     public void onEnable() {
         plugin = this;
@@ -37,10 +38,12 @@ public class SRVerify extends JavaPlugin {
         plugin.getCommand("verify").setExecutor(new VerifySpigot());
         getServer().getPluginManager().registerEvents(new PlayerJoin(), plugin);
         try {
-            JDABuilder builder = JDABuilder.createDefault(plugin.getConfig().getString("token"));
+            JDABuilder builder = JDABuilder.createDefault(this.getConfig().getString("token"));
             builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
             builder.addEventListeners(new VerifyDiscord());
+            builder.addEventListeners(new HelpCommand());
             builder.build();
+            jda = (JDA) builder;
         } catch (LoginException e) {
             System.out.println("Invalid bot token");
         }
@@ -50,6 +53,7 @@ public class SRVerify extends JavaPlugin {
     @Override
     public void onDisable() {
         s.setServerOnline(false);
+        jda.shutdownNow();
     }
 
     public void verifyConfig() {
