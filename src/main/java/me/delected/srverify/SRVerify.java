@@ -1,15 +1,10 @@
 package me.delected.srverify;
 
-import me.delected.srverify.discord.Ban;
-import me.delected.srverify.discord.HelpCommand;
-import me.delected.srverify.discord.Kick;
 import me.delected.srverify.discord.VerifyDiscord;
 import me.delected.srverify.spigotstuff.PlayerJoin;
-import me.delected.srverify.spigotstuff.VerifySpigot;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,32 +16,28 @@ import java.util.UUID;
 public class SRVerify extends JavaPlugin {
     public static JavaPlugin plugin;
     ServerBooleans s = new ServerBooleans();
-    private static HashMap<UUID, String> code = new HashMap<>();
+    private static final HashMap<UUID, String> code = new HashMap<>();
 
     public static HashMap<UUID, String> getCode() {
         return code;
     }
 
-    public JavaPlugin plugin() {
-        return plugin;
-    }
-    JDA jda;
+    private JDA jda;
+
     @Override
     public void onEnable() {
         plugin = this;
         saveDefaultConfig();
         s.setServerOnline(true);
         verifyConfig();
-        plugin.getCommand("verify").setExecutor(new VerifySpigot());
         getServer().getPluginManager().registerEvents(new PlayerJoin(), plugin);
         try {
-            JDABuilder builder = JDABuilder.createDefault(this.getConfig().getString("token"));
+            JDABuilder builder = JDABuilder.createDefault(plugin.getConfig().getString("token"));
             builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
             builder.addEventListeners(new VerifyDiscord());
-            builder.addEventListeners(new HelpCommand());
-            builder.addEventListeners(new Ban());
-            builder.addEventListeners(new Kick());
             builder.build();
+            builder.setActivity(Activity.playing("Server Status: Online"));
+
             jda = (JDA) builder;
         } catch (LoginException e) {
             System.out.println("Invalid bot token");
@@ -56,8 +47,8 @@ public class SRVerify extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        s.setServerOnline(false);
         jda.shutdownNow();
+        s.setServerOnline(false);
     }
 
     public void verifyConfig() {

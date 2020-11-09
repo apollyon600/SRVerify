@@ -7,4 +7,4 @@ authors: [Delected_]
 commands:
   verify:
     usage: /verify
-    description: verifies the player
+    description: Command to initate the verification of the user.
