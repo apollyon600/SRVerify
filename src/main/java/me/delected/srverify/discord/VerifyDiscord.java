@@ -46,7 +46,7 @@ public class VerifyDiscord extends ListenerAdapter {
                     // Embed Sending
                     UUID match = entry.getKey();
                     EmbedBuilder em = new EmbedBuilder();
-                    em.setColor(Color.getHSBColor(258, 68, 66));
+                    em.setColor(Color.GREEN);
                     em.setAuthor("You have been verified!", null, "https://minotar.net/helm/" + Bukkit.getPlayer(match).getName());
                     e.getChannel().sendMessage(em.build()).queue();
 
@@ -76,7 +76,6 @@ public class VerifyDiscord extends ListenerAdapter {
             }
         } else {
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setColor(Color.RED);
             embed.setDescription("The code is incorrect. Please try again.");
             embed.setAuthor("Error!", null, "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_960_720.png");
             e.getChannel().sendMessage(embed.build()).queue();
