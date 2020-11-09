@@ -12,15 +12,17 @@ import org.bukkit.potion.PotionEffectType;
 
 public class PlayerJoin implements Listener {
     ServerBooleans s = new ServerBooleans();
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         if (!s.isPlayerVerified(p)) {
-            if (!s.isVerificationAllowed()) { p.kickPlayer(ChatColor.RED + "" + ChatColor.BOLD + "Sorry! \n" + ChatColor.DARK_GRAY + "The server is not accepting new testers right now."); }
+            if (!s.isVerificationAllowed()) {
+                p.kickPlayer(ChatColor.RED + "" + ChatColor.BOLD + "Sorry! \n" + ChatColor.DARK_GRAY + "The server is not accepting new testers right now.");
+            }
             p.sendMessage(ChatColor.RED + "Welcome! In order to continue, you must verify. Use " + ChatColor.DARK_GRAY + "/verify" + ChatColor.RED + " to get started.");
             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 10, true, false));
+            p.setWalkSpeed(0f);
         }
     }
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e) { if (!s.isPlayerVerified(e.getPlayer())) { e.setCancelled(true); } }
 }
