@@ -37,9 +37,7 @@ public class SRVerify extends JavaPlugin {
         plugin.getCommand("verify").setExecutor(new VerifySpigot());
         getServer().getPluginManager().registerEvents(new PlayerJoin(), plugin);
         try {
-            JDABuilder builder = JDABuilder.createDefault("TOKEN_HERE");
-
-            // Disable parts of the cache
+            JDABuilder builder = JDABuilder.createDefault(plugin.getConfig().getString("token"));
             builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
             builder.addEventListeners(new VerifyDiscord());
             builder.build();
